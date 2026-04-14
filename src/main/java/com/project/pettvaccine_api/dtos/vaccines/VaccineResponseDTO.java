@@ -10,4 +10,5 @@ public record VaccineResponseDTO(
     LocalDateTime applicationDate,
     Boolean isApplied, 
     String observations
+
 ) {}
