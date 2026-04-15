@@ -16,6 +16,7 @@ public class SecurityConfigurations {
                 .csrf(csrf-> csrf.disable())
                 .sessionManagement(sm-> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(req ->{
+                    req.requestMatchers("/api/**").permitAll();
                     req.requestMatchers("/h2-console/**").permitAll();
                     req.anyRequest().authenticated();
                 })
