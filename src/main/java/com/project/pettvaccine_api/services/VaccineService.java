@@ -1,18 +1,16 @@
 package com.project.pettvaccine_api.services;
 
 import com.project.pettvaccine_api.dtos.vaccines.VaccineRequestDTO;
-import com.project.pettvaccine_api.dtos.vaccines.VaccineResponseDTO;
 import com.project.pettvaccine_api.entity.PetsEntity;
 import com.project.pettvaccine_api.entity.VaccinesEntity;
 import com.project.pettvaccine_api.repositories.PetRepository;
-import com.project.pettvaccine_api.repositories.PetSummaryDTO;
-import com.project.pettvaccine_api.repositories.VaccineWithPetResponseDTO;
+import com.project.pettvaccine_api.dtos.pets.PetSummaryDTO;
+import com.project.pettvaccine_api.dtos.vaccines.VaccineWithPetResponseDTO;
 import com.project.pettvaccine_api.repositories.VaccinesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -24,7 +22,7 @@ public class VaccineService {
     private VaccinesRepository vaccineRepository;
 
 
-    public List<VaccineWithPetResponseDTO> listarVacinas(){
+    public List<VaccineWithPetResponseDTO> listVaccines(){
         return vaccineRepository.findAll().stream().map(vaccines -> new VaccineWithPetResponseDTO(
                 vaccines.getId(),
                 vaccines.getName(),
@@ -35,7 +33,7 @@ public class VaccineService {
         )).toList();
     }
 
-    public VaccineWithPetResponseDTO listarVacinaPorId(UUID id) {
+    public VaccineWithPetResponseDTO listVaccinesById(UUID id) {
         VaccinesEntity vaccine = vaccineRepository.findById(id).
                 orElseThrow(() -> new RuntimeException("Pet não encontrado"));
 
@@ -49,7 +47,7 @@ public class VaccineService {
         );
     }
 
-    public VaccineWithPetResponseDTO cadastrar(VaccineRequestDTO dto) {
+    public VaccineWithPetResponseDTO registerVaccine(VaccineRequestDTO dto) {
 
         PetsEntity pet = petRepository.findById(dto.petId())
                 .orElseThrow(() -> new RuntimeException("Pet não encontrado para vincular a vacina"));
@@ -78,7 +76,7 @@ public class VaccineService {
         );
     }
 
-    public void deletarVacina(UUID id) {
+    public void deleteVaccine(UUID id) {
         vaccineRepository.deleteById(id);
     }
 }

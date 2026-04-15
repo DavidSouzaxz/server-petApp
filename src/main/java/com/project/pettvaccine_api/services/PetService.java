@@ -25,7 +25,7 @@ public class PetService {
     @Autowired
     private UserRepository userRepository;
 
-    public List<PetResponseDTO> listarPets() {
+    public List<PetResponseDTO> listPets() {
         List<PetsEntity> lista = petRepository.findAll();
 
         return lista.stream()
@@ -46,7 +46,7 @@ public class PetService {
                 )).toList();
     }
 
-    public PetResponseDTO buscarPetPorId(UUID id) {
+    public PetResponseDTO findPetById(UUID id) {
         PetsEntity pet = petRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Pet não encontrado"));
 
@@ -68,7 +68,7 @@ public class PetService {
     }
 
 
-    public PetResponseDTO cadastrarPet(PetRequestDTO petRequestDTO) {
+    public PetResponseDTO registerPet(PetRequestDTO petRequestDTO) {
         UserEntity user = userRepository.findById(petRequestDTO.userId()).orElseThrow(() -> new RuntimeException("User não encontrado"));
 
         PetsEntity pet = new PetsEntity();
@@ -96,7 +96,7 @@ public class PetService {
     }
 
 
-    public PetResponseDTO atualizarPet(PetRequestDTO petRequestDTO, UUID id) {
+    public PetResponseDTO updatePet(PetRequestDTO petRequestDTO, UUID id) {
         PetsEntity petUpdate = petRepository.findById(id).orElseThrow(() -> new RuntimeException("Pet não encontrado"));
 
         petUpdate.setName(petRequestDTO.name());
@@ -120,7 +120,7 @@ public class PetService {
         );
     }
 
-    public void deletarPet(UUID id) {
+    public void deletePet(UUID id) {
         petRepository.deleteById(id);
     }
 

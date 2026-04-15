@@ -1,4 +1,4 @@
-package com.project.pettvaccine_api.repositories;
+package com.project.pettvaccine_api.dtos.pets;
 
 import java.util.UUID;
 

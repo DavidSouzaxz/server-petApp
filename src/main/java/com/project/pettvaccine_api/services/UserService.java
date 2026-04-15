@@ -17,18 +17,26 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public List<UserEntity> listar(){
-        return userRepository.findAll();
+    public List<UserResponseDTO> listUsers() {
+        List<UserEntity> usuarios = userRepository.findAll();
+
+        return usuarios.stream()
+                .map(user -> new UserResponseDTO(
+                        user.getId(),
+                        user.getName(),
+                        user.getEmail()
+                ))
+                .toList();
     }
 
-    public UserResponseDTO buscarPorId(UUID id) {
+    public UserResponseDTO findByIdUser(UUID id) {
         UserEntity user = userRepository.findById(id)
                 .orElseThrow(() ->new RuntimeException("Id não localizado"));
 
         return new UserResponseDTO(user.getId(), user.getName(), user.getEmail());
     }
 
-    public UserResponseDTO cadastrar(UserRequestDTO userRequestDTO) {
+    public UserResponseDTO registerUser(UserRequestDTO userRequestDTO) {
         if(userRepository.findByEmail(userRequestDTO.email()).isPresent()) {
             throw new RuntimeException("Email já cadastrado");
         }
@@ -44,7 +52,7 @@ public class UserService {
 
     }
 
-    public UserResponseDTO atualizar(UUID id, UserRequestDTO userRequestDTO) {
+    public UserResponseDTO updateUser(UUID id, UserRequestDTO userRequestDTO) {
         if(userRepository.findById(id).isPresent()) {
             UserEntity userEntity = new UserEntity();
             userEntity.setName(userRequestDTO.name());
@@ -56,7 +64,7 @@ public class UserService {
         throw new RuntimeException("Id não localizado");
     }
 
-    public void deletar(UUID id){
+    public void deleteUser(UUID id){
         userRepository.deleteById(id);
     }
 
