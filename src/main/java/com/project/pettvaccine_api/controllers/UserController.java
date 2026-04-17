@@ -34,11 +34,11 @@ public class UserController {
         return ResponseEntity.ok().body(user);
     }
 
-    @PostMapping
-    public ResponseEntity<UserResponseDTO> createUser(@RequestBody @Valid UserRequestDTO user) {
-        UserResponseDTO userRegister = userService.registerUser(user);
-        return ResponseEntity.status(HttpStatus.CREATED).body(userRegister);
-    }
+//    @PostMapping
+//    public ResponseEntity<UserResponseDTO> createUser(@RequestBody @Valid UserRequestDTO user) {
+//        UserResponseDTO userRegister = userService.registerUser(user);
+//        return ResponseEntity.status(HttpStatus.CREATED).body(userRegister);
+//    }
 
     @PutMapping("/{id}")
     public ResponseEntity<UserResponseDTO> updateUser(@RequestBody @Valid UserRequestDTO user, @PathVariable UUID id) {
