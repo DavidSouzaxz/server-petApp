@@ -19,7 +19,7 @@ public class UserEntity implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @JdbcTypeCode(SqlTypes.UUID)
-    @Column(columnDefinition = "VARCHAR(36)",updatable = false, nullable = false)
+    @Column(updatable = false, nullable = false)
     private UUID id;
 
 

@@ -29,7 +29,7 @@ public class SecurityConfigurations {
                 .sessionManagement(sm-> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(req -> req.
                     requestMatchers("/api/auth/**").permitAll().
-                    requestMatchers("/h2-console/**").permitAll().
+
                     anyRequest().authenticated()
                 )
                 .headers(heards -> heards.frameOptions(frame -> frame.disable()))
