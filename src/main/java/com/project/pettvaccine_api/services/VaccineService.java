@@ -76,6 +76,19 @@ public class VaccineService {
         );
     }
 
+    public String vaccineIsApplied(UUID id) {
+        VaccinesEntity vaccine = vaccineRepository.findById(id).orElseThrow(() -> new RuntimeException("Vacina não encontrada"));
+        String response;
+        if(vaccine.getIsApplied()){
+            response = "Vacina já foi aplicada";
+        }else{
+            vaccine.setIsApplied(true);
+            response = "Vacina aplicada com sucesso";
+        }
+
+        return response;
+    }
+
     public void deleteVaccine(UUID id) {
         vaccineRepository.deleteById(id);
     }

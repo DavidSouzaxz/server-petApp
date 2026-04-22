@@ -34,6 +34,12 @@ public class VaccineController {
         return ResponseEntity.ok().body(vaccine);
     }
 
+    @PostMapping("/isApplied/${id}")
+    public ResponseEntity<String> vaccineIsApplied(@PathVariable UUID id) {
+        String vaccineIsApplied = vaccineService.vaccineIsApplied(id);
+        return ResponseEntity.ok().body(vaccineIsApplied);
+    }
+
     @PostMapping
     public ResponseEntity<VaccineWithPetResponseDTO> registerVaccine(@RequestBody @Valid VaccineRequestDTO vaccineRequestDTO) {
         VaccineWithPetResponseDTO vaccine = vaccineService.registerVaccine(vaccineRequestDTO);
