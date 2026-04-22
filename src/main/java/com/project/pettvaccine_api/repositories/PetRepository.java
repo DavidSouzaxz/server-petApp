@@ -16,5 +16,7 @@ public interface PetRepository extends JpaRepository<PetsEntity, UUID> {
    List<PetsEntity> findByBreed(String breed);
    List<PetsEntity> findByBirthDate(LocalDate date);
 
+    List<PetsEntity> petsFindByUserId(UUID id);
+
 
 }

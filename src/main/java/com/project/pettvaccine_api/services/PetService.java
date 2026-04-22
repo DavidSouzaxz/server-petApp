@@ -67,6 +67,27 @@ public class PetService {
         );
     }
 
+    public List<PetResponseDTO> listPetsByUserId(UUID id) {
+        List<PetsEntity> pets = petRepository.petsFindByUserId(id);
+
+        return pets.stream()
+                .map(pet -> new PetResponseDTO(
+                        pet.getId(),
+                        pet.getName(),
+                        pet.getBreed(),
+                        pet.getBirthDate(),
+                        pet.getListVaccines().stream().map(
+                                vaccine -> new VaccineResponseDTO(
+                                        vaccine.getId(),
+                                        vaccine.getName(),
+                                        vaccine.getApplicationDate(),
+                                        vaccine.getIsApplied(),
+                                        vaccine.getObservations()
+                                )
+                        ).toList()
+                )).toList();
+    }
+
 
     public PetResponseDTO registerPet(PetRequestDTO petRequestDTO) {
         UserEntity user = userRepository.findById(petRequestDTO.userId()).orElseThrow(() -> new RuntimeException("User não encontrado"));

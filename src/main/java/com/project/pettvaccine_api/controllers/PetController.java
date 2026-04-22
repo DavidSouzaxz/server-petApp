@@ -2,6 +2,7 @@ package com.project.pettvaccine_api.controllers;
 
 import com.project.pettvaccine_api.dtos.pets.PetRequestDTO;
 import com.project.pettvaccine_api.dtos.pets.PetResponseDTO;
+import com.project.pettvaccine_api.entity.PetsEntity;
 import com.project.pettvaccine_api.services.PetService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,13 @@ public class PetController {
 
         PetResponseDTO pet = petService.findPetById(id);
         return ResponseEntity.ok().body(pet);
+    }
+
+    @GetMapping("/usuario/{userId}")
+    public ResponseEntity<List<PetResponseDTO>> getPetsByUserId(@PathVariable UUID userId) {
+        List<PetResponseDTO> pets = petService.listPetsByUserId(userId);
+
+        return ResponseEntity.ok(pets);
     }
 
     @PostMapping

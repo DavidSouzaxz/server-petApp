@@ -1,5 +1,6 @@
 package com.project.pettvaccine_api.repositories;
 
+import com.project.pettvaccine_api.entity.PetsEntity;
 import com.project.pettvaccine_api.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -13,5 +14,8 @@ public interface UserRepository extends JpaRepository<UserEntity, UUID> {
     Optional<UserEntity> findByEmail(String email);
 
     Optional<UserEntity> findById(UUID id);
+
+
+
 
 }
