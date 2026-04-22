@@ -68,7 +68,7 @@ public class PetService {
     }
 
     public List<PetResponseDTO> listPetsByUserId(UUID id) {
-        List<PetsEntity> pets = petRepository.petsFindByUserId(id);
+        List<PetsEntity> pets = petRepository.findByUserId(id);
 
         return pets.stream()
                 .map(pet -> new PetResponseDTO(
