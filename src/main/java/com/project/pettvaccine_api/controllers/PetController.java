@@ -34,9 +34,9 @@ public class PetController {
         return ResponseEntity.ok().body(pet);
     }
 
-    @GetMapping("/usuario/{userId}")
-    public ResponseEntity<List<PetResponseDTO>> getPetsByUserId(@PathVariable UUID userId) {
-        List<PetResponseDTO> pets = petService.listPetsByUserId(userId);
+    @GetMapping("/usuario/{id}")
+    public ResponseEntity<List<PetResponseDTO>> getPetsByUserId(@PathVariable UUID id) {
+        List<PetResponseDTO> pets = petService.listPetsByUserId(id);
 
         return ResponseEntity.ok(pets);
     }

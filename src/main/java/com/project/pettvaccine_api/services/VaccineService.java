@@ -83,6 +83,7 @@ public class VaccineService {
             response = "Vacina já foi aplicada";
         }else{
             vaccine.setIsApplied(true);
+            vaccineRepository.save(vaccine);
             response = "Vacina aplicada com sucesso";
         }
 
