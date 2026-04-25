@@ -2,7 +2,9 @@ package com.project.pettvaccine_api.controllers;
 
 
 import com.project.pettvaccine_api.dtos.vaccines.VaccineRequestDTO;
+import com.project.pettvaccine_api.dtos.vaccines.VaccineResponseDTO;
 import com.project.pettvaccine_api.dtos.vaccines.VaccineWithPetResponseDTO;
+import com.project.pettvaccine_api.entity.VaccinesEntity;
 import com.project.pettvaccine_api.services.VaccineService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,18 @@ public class VaccineController {
         VaccineWithPetResponseDTO vaccine = vaccineService.listVaccinesById(id);
 
         return ResponseEntity.ok().body(vaccine);
+    }
+
+    @GetMapping("/pet/{id}")
+    public ResponseEntity<List<VaccineResponseDTO>> getVaccinesByPetId(@PathVariable UUID id) {
+        List<VaccineResponseDTO> vaccine = vaccineService.listVaccinesByPetId(id);
+        return ResponseEntity.ok().body(vaccine);
+    }
+
+    @GetMapping("/pendentes/{id}")
+    public ResponseEntity<List<VaccineWithPetResponseDTO>> getPendingVaccinesByPetId(@PathVariable UUID id) {
+        List<VaccineWithPetResponseDTO> pendingVaccines = vaccineService.listVaccinesPendentes(id);
+        return ResponseEntity.ok().body(pendingVaccines);
     }
 
     @PostMapping("/isApplied/{id}")

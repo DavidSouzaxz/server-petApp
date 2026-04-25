@@ -1,6 +1,7 @@
 package com.project.pettvaccine_api.services;
 
 import com.project.pettvaccine_api.dtos.vaccines.VaccineRequestDTO;
+import com.project.pettvaccine_api.dtos.vaccines.VaccineResponseDTO;
 import com.project.pettvaccine_api.entity.PetsEntity;
 import com.project.pettvaccine_api.entity.VaccinesEntity;
 import com.project.pettvaccine_api.repositories.PetRepository;
@@ -33,6 +34,22 @@ public class VaccineService {
         )).toList();
     }
 
+    public List<VaccineResponseDTO> listVaccinesByPetId(UUID petId) {
+
+        List<VaccinesEntity> vaccines = vaccineRepository.findByPetId(petId);
+
+
+        return vaccines.stream()
+                .map(v -> new VaccineResponseDTO(
+                        v.getId(),
+                        v.getName(),
+                        v.getApplicationDate(),
+                        v.getIsApplied(),
+                        v.getObservations()
+                ))
+                .toList();
+    }
+
     public VaccineWithPetResponseDTO listVaccinesById(UUID id) {
         VaccinesEntity vaccine = vaccineRepository.findById(id).
                 orElseThrow(() -> new RuntimeException("Pet não encontrado"));
@@ -45,6 +62,24 @@ public class VaccineService {
                 vaccine.getObservations(),
                 new PetSummaryDTO(vaccine.getPet().getId(), vaccine.getPet().getName(), vaccine.getPet().getBreed())
         );
+    }
+
+    public List<VaccineWithPetResponseDTO> listVaccinesPendentes(UUID id){
+        List<PetsEntity> petsByUser = petRepository.findByUserId(id);
+
+        List<VaccineWithPetResponseDTO> vaccinesPendentes = petsByUser.stream()
+                .flatMap(pet -> vaccineRepository.findByPetId(pet.getId()).stream())
+                .filter(vaccine -> !vaccine.getIsApplied())
+                .map(vaccine -> new VaccineWithPetResponseDTO(
+                        vaccine.getId(),
+                        vaccine.getName(),
+                        vaccine.getApplicationDate(),
+                        vaccine.getIsApplied(),
+                        vaccine.getObservations(),
+                        new PetSummaryDTO(vaccine.getPet().getId(), vaccine.getPet().getName(), vaccine.getPet().getBreed())
+                ))
+                .toList();
+        return vaccinesPendentes;
     }
 
     public VaccineWithPetResponseDTO registerVaccine(VaccineRequestDTO dto) {

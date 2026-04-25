@@ -13,4 +13,6 @@ import java.util.UUID;
 public interface VaccinesRepository extends JpaRepository<VaccinesEntity, UUID> {
     Optional<VaccinesEntity> findByName(String name);
     List<VaccinesEntity> findByPetId(UUID petId);
+
+
 }

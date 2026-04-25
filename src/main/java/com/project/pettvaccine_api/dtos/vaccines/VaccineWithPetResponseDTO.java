@@ -13,7 +13,7 @@ public record VaccineWithPetResponseDTO(
         LocalDateTime applicationDate,
         Boolean isApplied,
         String observations,
-        PetSummaryDTO pet // Inclui apenas o básico do Pet aqui
+        PetSummaryDTO pet
 ) {}
 
 // Um DTO "leve" só para identificação
