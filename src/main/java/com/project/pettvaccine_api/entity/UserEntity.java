@@ -28,6 +28,8 @@ public class UserEntity implements UserDetails {
     private String email;
     private String password;
 
+    private String contact;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_USER"));

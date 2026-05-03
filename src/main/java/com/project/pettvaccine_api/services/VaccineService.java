@@ -111,6 +111,25 @@ public class VaccineService {
         );
     }
 
+    public VaccineWithPetResponseDTO updateVaccine(VaccineRequestDTO dto, UUID id) {
+        VaccinesEntity vaccine = vaccineRepository.findById(id).orElseThrow(() -> new RuntimeException("Nenhuma vacina encontrada"));
+
+        vaccine.setName(dto.name());
+        vaccine.setApplicationDate(dto.applicationDate());
+        vaccine.setIsApplied(dto.isApplied());
+        vaccine.setObservations(dto.observations());
+        VaccinesEntity save = vaccineRepository.save(vaccine);
+        return new VaccineWithPetResponseDTO(
+                save.getId(),
+                save.getName(),
+                save.getApplicationDate(),
+                save.getIsApplied(),
+                save.getObservations(),
+                new PetSummaryDTO(vaccine.getPet().getId(), vaccine.getPet().getName(), vaccine.getPet().getBreed())
+        );
+
+    }
+
     public String vaccineIsApplied(UUID id) {
         VaccinesEntity vaccine = vaccineRepository.findById(id).orElseThrow(() -> new RuntimeException("Vacina não encontrada"));
         String response;

@@ -10,6 +10,12 @@ public record PetResponseDTO(
         UUID id,
         String name,
         String breed,
+        String specie,
+        String color,
+        String microchip,
+        String observations,
+        Float weight,
+        String sex,
         LocalDate birthDate,
         List<VaccineResponseDTO> vaccines
 ) {}

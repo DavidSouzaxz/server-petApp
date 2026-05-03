@@ -24,6 +24,13 @@ public class PetsEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
+    private String specie;
+    private String sex;
+    private Float weight;
+    private String color;
+    private String microchip;
+    @Column(columnDefinition = "TEXT")
+    private String observations;
     private String name;
     private String breed;
     private LocalDate birthDate;

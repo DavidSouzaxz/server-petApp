@@ -48,6 +48,12 @@ public class VaccineController {
         return ResponseEntity.ok().body(pendingVaccines);
     }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<VaccineWithPetResponseDTO> updateVaccine(@PathVariable UUID id, @RequestBody VaccineRequestDTO vaccineRequestDTO) {
+        VaccineWithPetResponseDTO update =  vaccineService.updateVaccine(vaccineRequestDTO, id);
+        return ResponseEntity.ok().body(update);
+    }
+
     @PostMapping("/isApplied/{id}")
     public ResponseEntity<String> vaccineIsApplied(@PathVariable UUID id) {
         String vaccineIsApplied = vaccineService.vaccineIsApplied(id);
@@ -59,7 +65,6 @@ public class VaccineController {
         VaccineWithPetResponseDTO vaccine = vaccineService.registerVaccine(vaccineRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(vaccine);
     }
-
 
 
     @DeleteMapping("/{id}")

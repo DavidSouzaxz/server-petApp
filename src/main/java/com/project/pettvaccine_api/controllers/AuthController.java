@@ -36,7 +36,7 @@ public class AuthController {
         var user = (UserEntity) auth.getPrincipal();
         var token = jwtUtil.generateToken(user);
 
-        return ResponseEntity.ok(new LoginResponseDTO(token, user.getId(), user.getName()));
+        return ResponseEntity.ok(new LoginResponseDTO(token, user.getId(),user.getContact(), user.getName()));
     }
 
     @PostMapping("/register")
@@ -44,7 +44,7 @@ public class AuthController {
         if (this.userRepository.findByEmail(data.getEmail()).isPresent()) {
             return ResponseEntity.badRequest().body("E-mail já cadastrado");
         }
-
+        data.setContact(data.getContact());
         data.setPassword(passwordEncoder.encode(data.getPassword()));
         
         this.userRepository.save(data);

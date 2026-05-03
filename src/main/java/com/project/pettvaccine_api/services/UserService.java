@@ -30,6 +30,7 @@ public class UserService implements UserDetailsService {
                 .map(user -> new UserResponseDTO(
                         user.getId(),
                         user.getName(),
+                        user.getContact(),
                         user.getEmail()
                 ))
                 .toList();
@@ -39,7 +40,7 @@ public class UserService implements UserDetailsService {
         UserEntity user = userRepository.findById(id)
                 .orElseThrow(() ->new RuntimeException("Id não localizado"));
 
-        return new UserResponseDTO(user.getId(), user.getName(), user.getEmail());
+        return new UserResponseDTO(user.getId(), user.getName(), user.getContact(), user.getEmail());
     }
 
 
@@ -69,12 +70,23 @@ public class UserService implements UserDetailsService {
 
     public UserResponseDTO updateUser(UUID id, UserRequestDTO userRequestDTO) {
         if(userRepository.findById(id).isPresent()) {
-            UserEntity userEntity = new UserEntity();
-            userEntity.setName(userRequestDTO.name());
-            userEntity.setEmail(userRequestDTO.email());
-            userEntity.setPassword(passwordEncoder.encode(userRequestDTO.password()));
+            UserEntity userEntity = userRepository.findById(id).get();
+            if(userRequestDTO.name() != null ) {
+                userEntity.setName(userRequestDTO.name());
+            }
+            if(userRequestDTO.email() != null ) {
+                userEntity.setEmail(userRequestDTO.email());
+            }
+            if(userRequestDTO.password() != null ) {
+                userEntity.setPassword(passwordEncoder.encode(userRequestDTO.password()));
+            }
+            if(userRequestDTO.contact() != null ) {
+                userEntity.setContact(userRequestDTO.contact());
+            }
+
+
             UserEntity save = userRepository.save(userEntity);
-            return new UserResponseDTO(save.getId(), save.getName(), save.getEmail());
+            return new UserResponseDTO(save.getId(), save.getName(),save.getContact(), save.getEmail());
         }
         throw new RuntimeException("Id não localizado");
     }

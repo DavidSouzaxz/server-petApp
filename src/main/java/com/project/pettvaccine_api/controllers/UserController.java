@@ -40,7 +40,7 @@ public class UserController {
 //        return ResponseEntity.status(HttpStatus.CREATED).body(userRegister);
 //    }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<UserResponseDTO> updateUser(@RequestBody @Valid UserRequestDTO user, @PathVariable UUID id) {
         UserResponseDTO userEdit = userService.updateUser(id, user);
         return ResponseEntity.ok().body(userEdit);

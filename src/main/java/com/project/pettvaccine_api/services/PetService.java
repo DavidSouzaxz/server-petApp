@@ -33,6 +33,12 @@ public class PetService {
                         pet.getId(),
                         pet.getName(),
                         pet.getBreed(),
+                        pet.getSpecie(),
+                        pet.getColor(),
+                        pet.getMicrochip(),
+                        pet.getObservations(),
+                        pet.getWeight(),
+                        pet.getSex(),
                         pet.getBirthDate(),
                         pet.getListVaccines().stream().map(
                                 vaccine -> new VaccineResponseDTO(
@@ -54,6 +60,12 @@ public class PetService {
                 pet.getId(),
                 pet.getName(),
                 pet.getBreed(),
+                pet.getSpecie(),
+                pet.getColor(),
+                pet.getMicrochip(),
+                pet.getObservations(),
+                pet.getWeight(),
+                pet.getSex(),
                 pet.getBirthDate(),
                 pet.getListVaccines().stream().map(
                         vaccine -> new VaccineResponseDTO(
@@ -75,6 +87,12 @@ public class PetService {
                         pet.getId(),
                         pet.getName(),
                         pet.getBreed(),
+                        pet.getSpecie(),
+                        pet.getColor(),
+                        pet.getMicrochip(),
+                        pet.getObservations(),
+                        pet.getWeight(),
+                        pet.getSex(),
                         pet.getBirthDate(),
                         pet.getListVaccines().stream().map(
                                 vaccine -> new VaccineResponseDTO(
@@ -95,16 +113,29 @@ public class PetService {
         PetsEntity pet = new PetsEntity();
         pet.setUser(user);
         pet.setName(petRequestDTO.name());
+        pet.setSpecie(petRequestDTO.specie());
         pet.setBreed(petRequestDTO.breed());
+        pet.setColor(petRequestDTO.color());
         pet.setBirthDate(petRequestDTO.birthDate());
+        petRequestDTO.microchip().ifPresent(pet::setMicrochip);
+        pet.setWeight(petRequestDTO.weight());
+        pet.setSex(petRequestDTO.sex());
+        pet.setObservations(petRequestDTO.observations());
         pet.setListVaccines(new ArrayList<>());
+
 
         PetsEntity petEntity = petRepository.save(pet);
         return new PetResponseDTO(
-                petEntity.getId(),
-                petEntity.getName(),
-                petEntity.getBreed(),
-                petEntity.getBirthDate(),
+                pet.getId(),
+                pet.getName(),
+                pet.getBreed(),
+                pet.getSpecie(),
+                pet.getColor(),
+                pet.getMicrochip(),
+                pet.getObservations(),
+                pet.getWeight(),
+                pet.getSex(),
+                pet.getBirthDate(),
                 petEntity.getListVaccines().stream().map(vaccine -> new VaccineResponseDTO(
                         vaccine.getId(),
                         vaccine.getName(),
@@ -121,8 +152,15 @@ public class PetService {
         PetsEntity petUpdate = petRepository.findById(id).orElseThrow(() -> new RuntimeException("Pet não encontrado"));
 
         petUpdate.setName(petRequestDTO.name());
+        petUpdate.setSpecie(petRequestDTO.specie());
         petUpdate.setBreed(petRequestDTO.breed());
+        petUpdate.setColor(petRequestDTO.color());
         petUpdate.setBirthDate(petRequestDTO.birthDate());
+
+        petRequestDTO.microchip().ifPresent(petUpdate::setMicrochip);
+        petUpdate.setWeight(petRequestDTO.weight());
+        petUpdate.setSex(petRequestDTO.sex());
+        petUpdate.setObservations(petRequestDTO.observations());
 
         PetsEntity pet = petRepository.save(petUpdate);
 
@@ -130,6 +168,12 @@ public class PetService {
                 pet.getId(),
                 pet.getName(),
                 pet.getBreed(),
+                pet.getSpecie(),
+                pet.getColor(),
+                pet.getMicrochip(),
+                pet.getObservations(),
+                pet.getWeight(),
+                pet.getSex(),
                 pet.getBirthDate(),
                 pet.getListVaccines().stream().map(vaccine -> new VaccineResponseDTO(
                     vaccine.getId(),
