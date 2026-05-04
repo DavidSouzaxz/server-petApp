@@ -30,6 +30,7 @@ public class UserService implements UserDetailsService {
                 .map(user -> new UserResponseDTO(
                         user.getId(),
                         user.getName(),
+                        user.getPhotoUrl(),
                         user.getContact(),
                         user.getEmail()
                 ))
@@ -40,7 +41,7 @@ public class UserService implements UserDetailsService {
         UserEntity user = userRepository.findById(id)
                 .orElseThrow(() ->new RuntimeException("Id não localizado"));
 
-        return new UserResponseDTO(user.getId(), user.getName(), user.getContact(), user.getEmail());
+        return new UserResponseDTO(user.getId(), user.getName(),user.getPhotoUrl(), user.getContact(), user.getEmail());
     }
 
 
@@ -86,7 +87,7 @@ public class UserService implements UserDetailsService {
 
 
             UserEntity save = userRepository.save(userEntity);
-            return new UserResponseDTO(save.getId(), save.getName(),save.getContact(), save.getEmail());
+            return new UserResponseDTO(save.getId(), save.getName(),save.getPhotoUrl(),save.getContact(), save.getEmail());
         }
         throw new RuntimeException("Id não localizado");
     }

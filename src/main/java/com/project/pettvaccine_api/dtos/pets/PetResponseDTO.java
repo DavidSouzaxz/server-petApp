@@ -9,6 +9,7 @@ import java.util.UUID;
 public record PetResponseDTO(
         UUID id,
         String name,
+        String photoUrl,
         String breed,
         String specie,
         String color,

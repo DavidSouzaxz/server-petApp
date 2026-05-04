@@ -6,6 +6,7 @@ import java.util.UUID;
 
 public record PetRequestDTO(
         String name,
+        String photoUrl,
         String specie,
         String breed,
         String color,

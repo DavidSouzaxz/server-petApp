@@ -32,6 +32,7 @@ public class PetService {
                 .map(pet -> new PetResponseDTO(
                         pet.getId(),
                         pet.getName(),
+                        pet.getPhotoUrl(),
                         pet.getBreed(),
                         pet.getSpecie(),
                         pet.getColor(),
@@ -59,6 +60,7 @@ public class PetService {
         return new PetResponseDTO(
                 pet.getId(),
                 pet.getName(),
+                pet.getPhotoUrl(),
                 pet.getBreed(),
                 pet.getSpecie(),
                 pet.getColor(),
@@ -86,6 +88,7 @@ public class PetService {
                 .map(pet -> new PetResponseDTO(
                         pet.getId(),
                         pet.getName(),
+                        pet.getPhotoUrl(),
                         pet.getBreed(),
                         pet.getSpecie(),
                         pet.getColor(),
@@ -113,8 +116,9 @@ public class PetService {
         PetsEntity pet = new PetsEntity();
         pet.setUser(user);
         pet.setName(petRequestDTO.name());
-        pet.setSpecie(petRequestDTO.specie());
+        pet.setPhotoUrl(petRequestDTO.photoUrl());
         pet.setBreed(petRequestDTO.breed());
+        pet.setSpecie(petRequestDTO.specie());
         pet.setColor(petRequestDTO.color());
         pet.setBirthDate(petRequestDTO.birthDate());
         petRequestDTO.microchip().ifPresent(pet::setMicrochip);
@@ -128,6 +132,7 @@ public class PetService {
         return new PetResponseDTO(
                 pet.getId(),
                 pet.getName(),
+                pet.getPhotoUrl(),
                 pet.getBreed(),
                 pet.getSpecie(),
                 pet.getColor(),
@@ -152,6 +157,7 @@ public class PetService {
         PetsEntity petUpdate = petRepository.findById(id).orElseThrow(() -> new RuntimeException("Pet não encontrado"));
 
         petUpdate.setName(petRequestDTO.name());
+        petUpdate.setPhotoUrl(petRequestDTO.photoUrl());
         petUpdate.setSpecie(petRequestDTO.specie());
         petUpdate.setBreed(petRequestDTO.breed());
         petUpdate.setColor(petRequestDTO.color());
@@ -167,6 +173,7 @@ public class PetService {
         return new PetResponseDTO(
                 pet.getId(),
                 pet.getName(),
+                pet.getPhotoUrl(),
                 pet.getBreed(),
                 pet.getSpecie(),
                 pet.getColor(),

@@ -24,6 +24,8 @@ public class PetsEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
+    private String photoUrl;
+
     private String specie;
     private String sex;
     private Float weight;
