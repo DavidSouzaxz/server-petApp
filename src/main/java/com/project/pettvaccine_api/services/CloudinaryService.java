@@ -43,4 +43,22 @@ public class CloudinaryService {
                 "cloud_name", cloudName
         );
     }
+
+    public void deleteImage(String photoUrl) {
+        try {
+            String publicId = photoUrl.substring(photoUrl.lastIndexOf("/") + 1, photoUrl.lastIndexOf("."));
+
+            Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
+                    "cloud_name", cloudName,
+                    "api_key", apiKey,
+                    "api_secret", apiSecret,
+                    "secure", true
+            ));
+
+            cloudinary.uploader().destroy(publicId, ObjectUtils.emptyMap());
+            System.out.println("Imagem removida do Cloudinary: " + publicId);
+        } catch (Exception e) {
+            System.err.println("Erro ao deletar imagem do Cloudinary: " + e.getMessage());
+        }
+    }
 }

@@ -25,6 +25,9 @@ public class PetService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private CloudinaryService cloudinaryService;
+
     public List<PetResponseDTO> listPets() {
         List<PetsEntity> lista = petRepository.findAll();
 
@@ -156,8 +159,14 @@ public class PetService {
     public PetResponseDTO updatePet(PetRequestDTO petRequestDTO, UUID id) {
         PetsEntity petUpdate = petRepository.findById(id).orElseThrow(() -> new RuntimeException("Pet não encontrado"));
 
+
+
+
         petUpdate.setName(petRequestDTO.name());
         petUpdate.setPhotoUrl(petRequestDTO.photoUrl());
+        if(petUpdate.getPhotoUrl() != null && !petUpdate.getPhotoUrl().equals(petRequestDTO.photoUrl())) {
+            cloudinaryService.deleteImage(petUpdate.getPhotoUrl());
+        }
         petUpdate.setSpecie(petRequestDTO.specie());
         petUpdate.setBreed(petRequestDTO.breed());
         petUpdate.setColor(petRequestDTO.color());
@@ -193,6 +202,12 @@ public class PetService {
     }
 
     public void deletePet(UUID id) {
+        PetsEntity pet = petRepository.findById(id).orElseThrow();
+
+
+        if (pet.getPhotoUrl() != null && !pet.getPhotoUrl().isEmpty()) {
+            cloudinaryService.deleteImage(pet.getPhotoUrl());
+        }
         petRepository.deleteById(id);
     }
 

@@ -22,6 +22,8 @@ public class UserService implements UserDetailsService {
     private UserRepository userRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private CloudinaryService cloudinaryService;
 
     public List<UserResponseDTO> listUsers() {
         List<UserEntity> usuarios = userRepository.findAll();
@@ -85,6 +87,14 @@ public class UserService implements UserDetailsService {
                 userEntity.setContact(userRequestDTO.contact());
             }
 
+            if(userEntity.getName() != null  && !userEntity.getName().equals(userRequestDTO.name())) {
+                cloudinaryService.deleteImage(userEntity.getPhotoUrl());
+            }
+
+
+
+            userEntity.setPhotoUrl(userRequestDTO.photoUrl());
+
 
             UserEntity save = userRepository.save(userEntity);
             return new UserResponseDTO(save.getId(), save.getName(),save.getPhotoUrl(),save.getContact(), save.getEmail());
@@ -93,6 +103,10 @@ public class UserService implements UserDetailsService {
     }
 
     public void deleteUser(UUID id){
+        UserEntity userExist = userRepository.findById(id).orElse(null);
+        if(userExist != null && !userExist.getPhotoUrl().isEmpty()) {
+            cloudinaryService.deleteImage(userExist.getPhotoUrl());
+        }
         userRepository.deleteById(id);
     }
 
