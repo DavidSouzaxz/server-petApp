@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -18,6 +19,11 @@ public class OccurrenceController {
     @PostMapping
     public ResponseEntity<OccurrenceEntity> create(@RequestBody OccurrenceEntity occurrence) {
         return ResponseEntity.ok(service.create(occurrence));
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<Optional<OccurrenceEntity>> getById(@PathVariable UUID id) {
+        return ResponseEntity.ok(service.listById(id));
     }
 
     @GetMapping("/pet/{petId}")
