@@ -43,7 +43,7 @@ public class UserService implements UserDetailsService {
         UserEntity user = userRepository.findById(id)
                 .orElseThrow(() ->new RuntimeException("Id não localizado"));
 
-        return new UserResponseDTO(user.getId(), user.getName(),user.getPhotoUrl(), user.getContact(), user.getEmail());
+        return new UserResponseDTO(user.getId(), user.getName(), user.getContact(),user.getPhotoUrl(), user.getEmail());
     }
 
 
@@ -77,9 +77,8 @@ public class UserService implements UserDetailsService {
             if(userRequestDTO.name() != null ) {
                 userEntity.setName(userRequestDTO.name());
             }
-            if(userRequestDTO.email() != null ) {
-                userEntity.setEmail(userRequestDTO.email());
-            }
+            userEntity.setEmail(userEntity.getEmail());
+
             if(userRequestDTO.password() != null ) {
                 userEntity.setPassword(passwordEncoder.encode(userRequestDTO.password()));
             }
