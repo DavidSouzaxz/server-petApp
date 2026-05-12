@@ -1,10 +1,10 @@
 package com.project.pettvaccine_api.models;
 
 public enum OccurrenceType {
-    MEMORY,
-    VACCINE,
-    CHECKUP,
-    SURGERY,
-    EXAM,
-    MEDICATION
+    VOMITING,
+    REDUCE_APPETITE,
+    HECTIC,
+    HAIR_FALLING,
+    LOOSE_STOOLS,
+    EXCESSIVE_LICKING
 }
