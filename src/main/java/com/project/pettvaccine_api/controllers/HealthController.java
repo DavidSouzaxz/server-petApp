@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/sys")
 public class HealthController {
-    @Value("${HEALTH_KEY}") // O Spring busca automaticamente nas Env Vars do Render
+    @Value("${HEALTH_KEY}") 
     private String secretKey;
 
     @GetMapping("/sync")

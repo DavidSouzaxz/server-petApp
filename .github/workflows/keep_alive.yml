@@ -2,7 +2,7 @@ name: Keep Alive Render
 
 on:
   schedule:
-    - cron: '*/10 * * * *'
+    - cron: "*/10 * * * *"
   workflow_dispatch:
 
 jobs:
@@ -10,4 +10,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Hit the stealth endpoint
-        run: curl -s -H "X-Health-Key: ${{ secrets.HEALTH_KEY }}" ${{ secrets.RENDER_URL }}
+        run: >-
+          curl -s -H "X-Health-Key: ${{ secrets.HEALTH_KEY }}" ${{ secrets.RENDER_URL }}
