@@ -24,7 +24,7 @@ public class VaccinesEntity {
     @JoinColumn(name = "pet_id")
     private PetsEntity pet;
 
-    @Column(unique = true)
+
     private String name;
     private LocalDateTime applicationDate;
     private Boolean isApplied;
