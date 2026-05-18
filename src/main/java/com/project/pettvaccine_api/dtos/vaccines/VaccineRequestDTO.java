@@ -7,6 +7,7 @@ import java.util.UUID;
 public record VaccineRequestDTO(
         String name,
         LocalDateTime applicationDate,
+        LocalDateTime nextApplicationDate,
         Boolean isApplied,
         String observations,
         UUID petId

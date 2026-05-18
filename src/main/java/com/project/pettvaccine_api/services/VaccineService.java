@@ -28,6 +28,7 @@ public class VaccineService {
                 vaccines.getId(),
                 vaccines.getName(),
                 vaccines.getApplicationDate(),
+                vaccines.getNextApplicationDate(),
                 vaccines.getIsApplied(),
                 vaccines.getObservations(),
                 new PetSummaryDTO(vaccines.getPet().getId(), vaccines.getPet().getName(), vaccines.getPet().getBreed())
@@ -44,6 +45,7 @@ public class VaccineService {
                         v.getId(),
                         v.getName(),
                         v.getApplicationDate(),
+                        v.getNextApplicationDate(),
                         v.getIsApplied(),
                         v.getObservations()
                 ))
@@ -58,6 +60,7 @@ public class VaccineService {
                 vaccine.getId(),
                 vaccine.getName(),
                 vaccine.getApplicationDate(),
+                vaccine.getNextApplicationDate(),
                 vaccine.getIsApplied(),
                 vaccine.getObservations(),
                 new PetSummaryDTO(vaccine.getPet().getId(), vaccine.getPet().getName(), vaccine.getPet().getBreed())
@@ -74,6 +77,7 @@ public class VaccineService {
                         vaccine.getId(),
                         vaccine.getName(),
                         vaccine.getApplicationDate(),
+                        vaccine.getNextApplicationDate(),
                         vaccine.getIsApplied(),
                         vaccine.getObservations(),
                         new PetSummaryDTO(vaccine.getPet().getId(), vaccine.getPet().getName(), vaccine.getPet().getBreed())
@@ -91,6 +95,7 @@ public class VaccineService {
         VaccinesEntity vaccine = new VaccinesEntity();
         vaccine.setName(dto.name());
         vaccine.setApplicationDate(dto.applicationDate());
+        vaccine.setNextApplicationDate(dto.nextApplicationDate());
         vaccine.setIsApplied(dto.isApplied());
         vaccine.setObservations(dto.observations());
 
@@ -105,6 +110,7 @@ public class VaccineService {
                 salva.getId(),
                 salva.getName(),
                 salva.getApplicationDate(),
+                salva.getNextApplicationDate(),
                 salva.getIsApplied(),
                 salva.getObservations(),
                 new PetSummaryDTO(vaccine.getPet().getId(), vaccine.getPet().getName(), vaccine.getPet().getBreed())
@@ -116,6 +122,7 @@ public class VaccineService {
 
         vaccine.setName(dto.name());
         vaccine.setApplicationDate(dto.applicationDate());
+        vaccine.setNextApplicationDate(dto.nextApplicationDate());
         vaccine.setIsApplied(dto.isApplied());
         vaccine.setObservations(dto.observations());
         VaccinesEntity save = vaccineRepository.save(vaccine);
@@ -123,6 +130,7 @@ public class VaccineService {
                 save.getId(),
                 save.getName(),
                 save.getApplicationDate(),
+                save.getNextApplicationDate(),
                 save.getIsApplied(),
                 save.getObservations(),
                 new PetSummaryDTO(vaccine.getPet().getId(), vaccine.getPet().getName(), vaccine.getPet().getBreed())

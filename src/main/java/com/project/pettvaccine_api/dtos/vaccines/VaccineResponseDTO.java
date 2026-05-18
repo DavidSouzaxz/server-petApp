@@ -11,7 +11,9 @@ public record VaccineResponseDTO(
     String name,
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     LocalDateTime applicationDate,
-    Boolean isApplied, 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    LocalDateTime nextApplicationDate,
+    Boolean isApplied,
     String observations
 
 ) {}

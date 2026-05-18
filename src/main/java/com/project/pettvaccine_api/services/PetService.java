@@ -49,6 +49,7 @@ public class PetService {
                                         vaccine.getId(),
                                         vaccine.getName(),
                                         vaccine.getApplicationDate(),
+                                        vaccine.getNextApplicationDate(),
                                         vaccine.getIsApplied(),
                                         vaccine.getObservations()
                                 )
@@ -77,6 +78,7 @@ public class PetService {
                                 vaccine.getId(),
                                 vaccine.getName(),
                                 vaccine.getApplicationDate(),
+                                vaccine.getNextApplicationDate(),
                                 vaccine.getIsApplied(),
                                 vaccine.getObservations()
                         )
@@ -105,6 +107,7 @@ public class PetService {
                                         vaccine.getId(),
                                         vaccine.getName(),
                                         vaccine.getApplicationDate(),
+                                        vaccine.getNextApplicationDate(),
                                         vaccine.getIsApplied(),
                                         vaccine.getObservations()
                                 )
@@ -148,6 +151,7 @@ public class PetService {
                         vaccine.getId(),
                         vaccine.getName(),
                         vaccine.getApplicationDate(),
+                        vaccine.getNextApplicationDate(),
                         vaccine.getIsApplied(),
                         vaccine.getObservations()
                 )).toList()
@@ -195,6 +199,7 @@ public class PetService {
                     vaccine.getId(),
                     vaccine.getName(),
                     vaccine.getApplicationDate(),
+                        vaccine.getNextApplicationDate(),
                     vaccine.getIsApplied(),
                     vaccine.getObservations()
                  )).toList()

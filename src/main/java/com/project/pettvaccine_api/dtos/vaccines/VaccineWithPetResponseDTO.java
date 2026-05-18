@@ -11,6 +11,7 @@ public record VaccineWithPetResponseDTO(
         String name,
         @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
         LocalDateTime applicationDate,
+        LocalDateTime nextApplicationDate,
         Boolean isApplied,
         String observations,
         PetSummaryDTO pet

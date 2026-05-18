@@ -27,6 +27,7 @@ public class VaccinesEntity {
 
     private String name;
     private LocalDateTime applicationDate;
+    private LocalDateTime nextApplicationDate;
     private Boolean isApplied;
 
     @Column(columnDefinition = "TEXT")
