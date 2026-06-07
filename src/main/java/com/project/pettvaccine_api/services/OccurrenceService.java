@@ -1,5 +1,6 @@
 package com.project.pettvaccine_api.services;
 
+import com.project.pettvaccine_api.dtos.occurrencs.OccurrenceResponseDTO;
 import com.project.pettvaccine_api.entity.OccurrenceEntity;
 import com.project.pettvaccine_api.repositories.OccurrenceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,20 @@ public class OccurrenceService {
         return repository.save(occurrence);
     }
 
-    public List<OccurrenceEntity> listByPet(UUID petId) {
-        return repository.findByPetIdOrderByOccurrenceDateDesc(petId);
+    public List<OccurrenceResponseDTO> listByPet(UUID petId) {
+        List<OccurrenceEntity> occurrences = repository.findByPetIdOrderByOccurrenceDateDesc(petId);
+        return occurrences.stream()
+                .map(occ -> new OccurrenceResponseDTO(
+                        occ.getId(),
+                        occ.getPet().getId(), // 👈 Pega apenas o ID do relacionamento de objetos
+                        occ.getType(),
+                        occ.getTitle(),
+                        occ.getDescription(),
+                        occ.getPhotoUrl(),
+                        occ.getOccurrenceDate(),
+                        occ.getCreatedAt()
+                ))
+                .toList();
     }
     public Optional<OccurrenceEntity> listById(UUID id) {
         return repository.findById(id);

@@ -1,5 +1,6 @@
 package com.project.pettvaccine_api.controllers;
 
+import com.project.pettvaccine_api.dtos.occurrencs.OccurrenceResponseDTO;
 import com.project.pettvaccine_api.entity.OccurrenceEntity;
 import com.project.pettvaccine_api.services.OccurrenceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class OccurrenceController {
     }
 
     @GetMapping("/pet/{petId}")
-    public ResponseEntity<List<OccurrenceEntity>> listByPet(@PathVariable UUID petId) {
+    public ResponseEntity<List<OccurrenceResponseDTO>> listByPet(@PathVariable UUID petId) {
         return ResponseEntity.ok(service.listByPet(petId));
     }
 
