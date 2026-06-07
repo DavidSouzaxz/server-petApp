@@ -15,8 +15,9 @@ public class OccurrenceEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @Column(nullable = false)
-    private UUID petId; // Relacionamento com o Pet
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pet_id", nullable = false)
+    private PetsEntity pet;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

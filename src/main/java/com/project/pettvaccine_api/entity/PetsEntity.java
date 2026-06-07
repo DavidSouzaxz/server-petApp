@@ -39,4 +39,7 @@ public class PetsEntity {
 
     @OneToMany(mappedBy = "pet", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<VaccinesEntity> listVaccines;
+
+    @OneToMany(mappedBy = "pet", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OccurrenceEntity> listOccurrences;
 }

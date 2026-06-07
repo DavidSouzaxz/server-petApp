@@ -132,30 +132,11 @@ public class PetService {
         pet.setSex(petRequestDTO.sex());
         pet.setObservations(petRequestDTO.observations());
         pet.setListVaccines(new ArrayList<>());
+        pet.setListOccurrences(new ArrayList<>());
 
 
         PetsEntity petEntity = petRepository.save(pet);
-        return new PetResponseDTO(
-                pet.getId(),
-                pet.getName(),
-                pet.getPhotoUrl(),
-                pet.getBreed(),
-                pet.getSpecie(),
-                pet.getColor(),
-                pet.getMicrochip(),
-                pet.getObservations(),
-                pet.getWeight(),
-                pet.getSex(),
-                pet.getBirthDate(),
-                petEntity.getListVaccines().stream().map(vaccine -> new VaccineResponseDTO(
-                        vaccine.getId(),
-                        vaccine.getName(),
-                        vaccine.getApplicationDate(),
-                        vaccine.getNextApplicationDate(),
-                        vaccine.getIsApplied(),
-                        vaccine.getObservations()
-                )).toList()
-        );
+        return convertToResponseDTO(petEntity);
 
     }
 
@@ -183,6 +164,29 @@ public class PetService {
 
         PetsEntity pet = petRepository.save(petUpdate);
 
+        return convertToResponseDTO(pet);
+    }
+
+    public void deletePet(UUID id) {
+        PetsEntity pet = petRepository.findById(id).orElseThrow();
+
+        // 👈 ADICIONADO: Limpa do Cloudinary as fotos das ocorrências desse pet antes do cascade
+        if (pet.getListOccurrences() != null) {
+            pet.getListOccurrences().forEach(occ -> {
+                if (occ.getPhotoUrl() != null && !occ.getPhotoUrl().isEmpty()) {
+                    cloudinaryService.deleteImage(occ.getPhotoUrl());
+                }
+            });
+        }
+
+        if (pet.getPhotoUrl() != null && !pet.getPhotoUrl().isEmpty()) {
+            cloudinaryService.deleteImage(pet.getPhotoUrl());
+        }
+        petRepository.deleteById(id);
+    }
+
+
+    private PetResponseDTO convertToResponseDTO(PetsEntity pet) {
         return new PetResponseDTO(
                 pet.getId(),
                 pet.getName(),
@@ -195,25 +199,17 @@ public class PetService {
                 pet.getWeight(),
                 pet.getSex(),
                 pet.getBirthDate(),
-                pet.getListVaccines().stream().map(vaccine -> new VaccineResponseDTO(
-                    vaccine.getId(),
-                    vaccine.getName(),
-                    vaccine.getApplicationDate(),
-                        vaccine.getNextApplicationDate(),
-                    vaccine.getIsApplied(),
-                    vaccine.getObservations()
-                 )).toList()
+                pet.getListVaccines() != null ? pet.getListVaccines().stream().map(
+                        vaccine -> new VaccineResponseDTO(
+                                vaccine.getId(),
+                                vaccine.getName(),
+                                vaccine.getApplicationDate(),
+                                vaccine.getNextApplicationDate(),
+                                vaccine.getIsApplied(),
+                                vaccine.getObservations()
+                        )
+                ).toList() : new ArrayList<>()
         );
-    }
-
-    public void deletePet(UUID id) {
-        PetsEntity pet = petRepository.findById(id).orElseThrow();
-
-
-        if (pet.getPhotoUrl() != null && !pet.getPhotoUrl().isEmpty()) {
-            cloudinaryService.deleteImage(pet.getPhotoUrl());
-        }
-        petRepository.deleteById(id);
     }
 
 }

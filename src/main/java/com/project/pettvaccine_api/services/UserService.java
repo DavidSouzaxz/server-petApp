@@ -105,12 +105,30 @@ public class UserService implements UserDetailsService {
         UserEntity userExist = userRepository.findById(id).orElse(null);
 
         if (userExist != null) {
-            // 👈 CORRIGIDO: Checa se é diferente de null ANTES de rodar o isEmpty()
+            // 👈 ADICIONADO: Faz o Cascade manual de imagens no Cloudinary para não deixar lixo no servidor
+            if (userExist.getListPets() != null) {
+                userExist.getListPets().forEach(pet -> {
+                    // Apaga as fotos das ocorrências de cada pet do usuário
+                    if (pet.getListOccurrences() != null) {
+                        pet.getListOccurrences().forEach(occ -> {
+                            if (occ.getPhotoUrl() != null && !occ.getPhotoUrl().isEmpty()) {
+                                cloudinaryService.deleteImage(occ.getPhotoUrl());
+                            }
+                        });
+                    }
+                    // Apaga a foto do próprio pet
+                    if (pet.getPhotoUrl() != null && !pet.getPhotoUrl().isEmpty()) {
+                        cloudinaryService.deleteImage(pet.getPhotoUrl());
+                    }
+                });
+            }
+
+            // Apaga a foto de perfil do usuário
             if (userExist.getPhotoUrl() != null && !userExist.getPhotoUrl().isEmpty()) {
                 cloudinaryService.deleteImage(userExist.getPhotoUrl());
             }
 
-            // Agora o cascade do banco vai limpar os pets, vacinas e ocorrências com segurança
+            // Deleta o usuário do banco. O CascadeType.ALL se encarrega do PostgreSQL de forma segura!
             userRepository.deleteById(id);
         }
     }

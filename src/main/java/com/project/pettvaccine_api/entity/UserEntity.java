@@ -32,6 +32,9 @@ public class UserEntity implements UserDetails {
 
     private String photoUrl;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PetsEntity> listPets;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_USER"));
