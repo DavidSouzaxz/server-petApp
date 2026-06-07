@@ -22,9 +22,11 @@ public class OccurrenceController {
         return ResponseEntity.ok(service.create(occurrence));
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<Optional<OccurrenceEntity>> getById(@PathVariable UUID id) {
-        return ResponseEntity.ok(service.listById(id));
+    @GetMapping("/{id}")
+    public ResponseEntity<OccurrenceResponseDTO> listById(@PathVariable UUID id) {
+        return service.listById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/pet/{petId}")

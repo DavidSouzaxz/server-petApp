@@ -37,8 +37,19 @@ public class OccurrenceService {
                 ))
                 .toList();
     }
-    public Optional<OccurrenceEntity> listById(UUID id) {
-        return repository.findById(id);
+
+    public Optional<OccurrenceResponseDTO> listById(UUID id) {
+        return repository.findById(id)
+                .map(occ -> new OccurrenceResponseDTO(
+                        occ.getId(),
+                        occ.getPet().getId(), // 👈 Evita o loop trazendo apenas o ID do pet
+                        occ.getType(),
+                        occ.getTitle(),
+                        occ.getDescription(),
+                        occ.getPhotoUrl(),
+                        occ.getOccurrenceDate(),
+                        occ.getCreatedAt()
+                ));
     }
 
     public void delete(UUID id) {
