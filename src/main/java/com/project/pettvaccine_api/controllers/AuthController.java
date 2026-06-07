@@ -10,10 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -27,6 +24,7 @@ public class AuthController {
     private JwtUtil jwtUtil;
     @Autowired
     private PasswordEncoder passwordEncoder;
+
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody LoginRequestDTO data) {
@@ -44,6 +42,8 @@ public class AuthController {
         if (this.userRepository.findByEmail(data.getEmail()).isPresent()) {
             return ResponseEntity.badRequest().body("E-mail já cadastrado");
         }
+
+        data.setPhotoUrl(data.getPhotoUrl());
         data.setContact(data.getContact());
         data.setPassword(passwordEncoder.encode(data.getPassword()));
         

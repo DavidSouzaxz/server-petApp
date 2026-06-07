@@ -101,12 +101,18 @@ public class UserService implements UserDetailsService {
         throw new RuntimeException("Id não localizado");
     }
 
-    public void deleteUser(UUID id){
+    public void deleteUser(UUID id) {
         UserEntity userExist = userRepository.findById(id).orElse(null);
-        if(userExist != null && !userExist.getPhotoUrl().isEmpty()) {
-            cloudinaryService.deleteImage(userExist.getPhotoUrl());
+
+        if (userExist != null) {
+            // 👈 CORRIGIDO: Checa se é diferente de null ANTES de rodar o isEmpty()
+            if (userExist.getPhotoUrl() != null && !userExist.getPhotoUrl().isEmpty()) {
+                cloudinaryService.deleteImage(userExist.getPhotoUrl());
+            }
+
+            // Agora o cascade do banco vai limpar os pets, vacinas e ocorrências com segurança
+            userRepository.deleteById(id);
         }
-        userRepository.deleteById(id);
     }
 
 }
