@@ -6,8 +6,10 @@ import com.project.pettvaccine_api.entity.UserEntity;
 import com.project.pettvaccine_api.infra.security.JwtUtil;
 import com.project.pettvaccine_api.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -28,13 +30,21 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody LoginRequestDTO data) {
+        try{
+            var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.password());
+            var auth = this.authenticationManager.authenticate(usernamePassword);
+            var user = (UserEntity) auth.getPrincipal();
+            var token = jwtUtil.generateToken(user);
 
-        var usernamePassword = new UsernamePasswordAuthenticationToken(data.email(), data.password());
-        var auth = this.authenticationManager.authenticate(usernamePassword);
-        var user = (UserEntity) auth.getPrincipal();
-        var token = jwtUtil.generateToken(user);
+            return ResponseEntity.ok(new LoginResponseDTO(token, user.getId(),user.getContact(), user.getName()));
+        }catch (BadCredentialsException e){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED) // Retorna 401
+                    .body("E-mail ou senha incorretos. Por favor, tente novamente.");
+        }catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro interno ao processar o login.");
+        }
 
-        return ResponseEntity.ok(new LoginResponseDTO(token, user.getId(),user.getContact(), user.getName()));
     }
 
     @PostMapping("/register")
